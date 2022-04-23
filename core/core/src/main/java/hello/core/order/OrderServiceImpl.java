@@ -1,15 +1,17 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor //final 붙은값 생성자를 만들어준다.
+//@RequiredArgsConstructor //final 붙은값 생성자를 만들어준다.
 public class OrderServiceImpl implements OrderService{
 
     /*  필드 주입
@@ -24,6 +26,13 @@ public class OrderServiceImpl implements OrderService{
 
     /*@Autowired*/ private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
+
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy){
+        this.memberRepository=memberRepository;
+        this.discountPolicy=discountPolicy;
+
+    }
 
   /*수정자 주입(setter 주입)
     setter라 불리는 필드의 값을 변경하는 수정자 메서드를 통해서 의존관계를 주입하는 방법이다.
